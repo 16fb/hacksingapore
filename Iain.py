@@ -32,7 +32,16 @@ location = st.text_input('Enter your location to find volunteer jobs nearby:', '
 # Multi-select box to enter the skillsets
 skills = st.multiselect(
     'Select your skillsets:',
-    ['Graphic Design', 'Web Development', 'Event Coordination', 'Marketing', 'Medical Knowledge', 'Customer Service', 'Bilingual', 'Programming', 'Writing']
+    ["Project Management",
+    "Public Speaking",
+    "Programming",
+    "First Aid",
+    "Marketing",
+    "Customer Service",
+    "Bilingual",
+    "Cooking",
+    "Sign Language"
+    ]
 )
 
 
@@ -72,10 +81,8 @@ for index, row in data.iterrows():
 
     final_dict[ str(row["name"]) ] = {
                     "skills": skills,
-                    "location": location_helps 
+                    "location": location_helps
                 }
-
-
 
 
 # Job database with exact locations
