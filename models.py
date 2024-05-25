@@ -7,7 +7,7 @@ class UserProfile:
         self.residential_area = residential_area
         self.occupation = occupation
 
-        type(volunteer_interests)
+        print(type(volunteer_interests))
         volunteer_interests
 
         # Ensure volunteer interests are joined by a comma and space if it's a list
