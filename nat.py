@@ -1,7 +1,9 @@
 import streamlit as st
-import folium 
+import folium
 from streamlit_folium import folium_static
 from folium.plugins import MarkerCluster
+from geopy.geocoders import Nominatim
+from geopy.distance import geodesic
 
 # Title of the app
 st.title('KindHearts Connect')
@@ -16,10 +18,10 @@ location = st.text_input('Enter your location to find volunteer jobs nearby:', '
 # Multi-select box to enter the skillsets
 skills = st.multiselect(
     'Select your skillsets:',
-    ['Teaching', 'Cooking', 'Event Planning', 'First Aid', 'Childcare', 'Elderly Care', 'Environmental Conservation', 'Fundraising', 'Mentoring', 'Technical Support']
+    ['Graphic Design', 'Web Development', 'Event Coordination', 'Marketing', 'Medical Knowledge', 'Customer Service', 'Bilingual', 'Programming', 'Writing']
 )
 
-# Expanded job database with more locations
+# Job database with exact locations
 job_database = {
     "Mobile Photography in Nature [Y-Y-T]": {"skills": ["Graphic Design", "Web Development"], "location": (1.4405739802247404, 103.73564417585078)},
     "[E3] Our Tampines Hub Festival": {"skills": ["Event Coordination"], "location": (1.353308328096193, 103.94089296047616)},
@@ -43,37 +45,48 @@ job_database = {
     "[TN5] Flying Disc - Pesta Sukan 2024": {"skills": ["Event Coordination"], "location": (1.36921, 103.85634)},
 }
 
+# Function to get coordinates from location
+def geocode_location(address):
+    geolocator = Nominatim(user_agent="kindhearts_connect")
+    location = geolocator.geocode(address)
+    if location:
+        return (location.latitude, location.longitude)
+    else:
+        return None
 
 # Button to search for volunteer jobs
 if st.button('Search'):
-    # Filter jobs based on selected skills
-    matched_jobs = {job: details for job, details in job_database.items() if any(skill in skills for skill in details['skills'])}
-    
-    # Check if there are jobs available
-    if matched_jobs:
-        st.subheader('Available Volunteer Jobs Near You:')
-        for job in matched_jobs:
-            st.write(f"● {job}")
-        
-        # Create a map centered at the first job's location
-        first_job_location = list(matched_jobs.values())[0]['location']
-        map = folium.Map(location=first_job_location, zoom_start=12)
-        
-        # Add markers for each matched job with clustering
-        marker_cluster = MarkerCluster().add_to(map)
-        for job, details in matched_jobs.items():
-            folium.Marker(
-                location=details['location'],
-                popup=f"<strong>{job}</strong><br>Skills: {', '.join(details['skills'])}",
-                tooltip=job,
-                icon=folium.Icon(color='blue', icon='info-sign')
-            ).add_to(marker_cluster)
-        
-        # Display the map in Streamlit
-        folium_static(map)
-    else:
-        st.write("Sorry, no volunteer jobs found matching your skillsets and location. Please try another location or check back later!")
+    user_location = geocode_location(location)
+    if user_location:
+        # Filter jobs based on selected skills and proximity
+        matched_jobs = {job: details for job, details in job_database.items() if any(skill in skills for skill in details['skills'])}
+        nearby_jobs = {job: details for job, details in matched_jobs.items() if geodesic(user_location, details['location']).km <= 10}  # 10 km radius
 
+        # Check if there are jobs available
+        if nearby_jobs:
+            st.subheader('Available Volunteer Jobs Near You:')
+            for job in nearby_jobs:
+                st.write(f"● {job}")
+            
+            # Create a map centered at the user's location
+            map = folium.Map(location=user_location, zoom_start=12)
+            
+            # Add markers for each nearby job with clustering
+            marker_cluster = MarkerCluster().add_to(map)
+            for job, details in nearby_jobs.items():
+                folium.Marker(
+                    location=details['location'],
+                    popup=f"<strong>{job}</strong><br>Skills: {', '.join(details['skills'])}",
+                    tooltip=job,
+                    icon=folium.Icon(color='blue', icon='info-sign')
+                ).add_to(marker_cluster)
+            
+            # Display the map in Streamlit
+            folium_static(map)
+        else:
+            st.write("Sorry, no volunteer jobs found matching your skillsets and location within 10 km. Please try another location or check back later!")
+    else:
+        st.write("Invalid location. Please enter a valid address.")
 
 # Some extra information or links can be added here
 st.write('Volunteer today and be the change you want to see!')
