@@ -94,11 +94,13 @@ with st.form("user_form"):
         st.success("Profile created successfully!")
 
 st.write("Enter a username to display the profile:")
-search_username = st.text_input("Search Username")
 
+search_username = st.text_input("Search Username")
 if st.button("Search"):
     profile = get_user_profile(search_username)
     if profile:
-        st.write(profile.display_profile())
+        # Direct display of the profile information without alteration
+        st.text(profile.display_profile())
     else:
         st.error("Profile not found.")
+
