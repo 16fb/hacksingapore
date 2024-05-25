@@ -39,7 +39,7 @@ skills = st.multiselect(
 
 job_database = {data}
 
-print(job_database)
+#print(job_database)
 
 # Function to get coordinates from location
 def geocode_location(address):
