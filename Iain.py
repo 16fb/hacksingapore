@@ -75,12 +75,12 @@ for index, row in data.iterrows():
     location_helps = (first,second)
 
     ## extract string of skills into list
-    skills = []
+    skillss = []
     for item in row["skills"].split(','):
-        skills.append(item)
+        skillss.append(item)
 
     final_dict[ str(row["name"]) ] = {
-                    "skills": skills,
+                    "skills": skillss,
                     "location": location_helps
                 }
 
