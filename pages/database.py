@@ -5,7 +5,7 @@ conn = sqlite3.connect('volunteer.db', check_same_thread=False)
 c = conn.cursor()
 
 def setup_database():
-    c.execute(
+    c.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL,
@@ -15,7 +15,7 @@ def setup_database():
             volunteer_interests TEXT,
             skills TEXT
         );
-    )
+    """)
     conn.commit()
 
 def insert_user_profile(user):
