@@ -6,17 +6,13 @@ class UserProfile:
         self.date_of_birth = date_of_birth
         self.residential_area = residential_area
         self.occupation = occupation
+
+        print(type(volunteer_interests))
         # Ensure volunteer interests are joined by a comma and space if it's a list
-        if isinstance(volunteer_interests, list):
-            self.volunteer_interests = ', '.join(volunteer_interests)
-        else:
-            self.volunteer_interests = volunteer_interests
+        self.volunteer_interests = ', '.join(volunteer_interests)
         
         # Ensure skills are joined by a comma and space if it's a list
-        if isinstance(skills, list):
-            self.skills = ', '.join(skills)
-        else:
-            self.skills = skills
+        self.skills = ', '.join(skills)
 
     def display_profile(self):
         profile_details = (
