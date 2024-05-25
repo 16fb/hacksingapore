@@ -59,6 +59,7 @@ def geocode_location(address):
 # Button to search for volunteer jobs
 if st.button('Search'):
     user_location = geocode_location(location)
+    print(user_location)
     if user_location:
         # Filter jobs based on selected skills and proximity
         matched_jobs = {job: details for job, details in job_database.items() if any(skill in skills for skill in details['skills'])}

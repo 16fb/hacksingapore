@@ -16,6 +16,9 @@ data = conn.read(spreadsheet=url, usecols = [1,2,3,4,5,6])
 
 st.dataframe(data)
 
+
+
+
 # Title of the app
 st.title('KindHearts Connect')
 
@@ -32,14 +35,61 @@ skills = st.multiselect(
     ['Graphic Design', 'Web Development', 'Event Coordination', 'Marketing', 'Medical Knowledge', 'Customer Service', 'Bilingual', 'Programming', 'Writing']
 )
 
+
+### Goals
+# pandas dataframe convert to specific dictionary/json
+
+#print(type(data)) # pandas DataFrame
+#print("Data formatting") 
+#print(data) # pandas DataFrame
+#print(data.dtypes) # Every column is an object
+#print(data.skills)
+#print(data.location)
+
+final_dict = {}
+
+for index, row in data.iterrows():
+    #print(row["name"], row["date"], row["address"], row["location"], row["shift"], row["skills"])
+    #print(row["name"], row["skills"], row["location"])
+
+    ## extract string of 2 floats into tuples
+    items = row["location"].split(',')
+    try:
+        first = float(items[0])
+    except (ValueError, IndexError):
+        pass
+    try:
+        second = float(items[-1])
+    except (ValueError, IndexError):
+        pass
+
+    location_helps = (first,second)
+
+    ## extract string of skills into list
+    skills = []
+    for item in row["skills"].split(','):
+        skills.append(item)
+
+    final_dict[ str(row["name"]) ] = {
+                    "skills": skills,
+                    "location": location_helps 
+                }
+
+
+
+
 # Job database with exact locations
-{
-    "Mobile Photography in Nature [Y-Y-T]": {"skills": ["Graphic Design", "Web Development"], "location": (1.4405739802247404, 103.73564417585078)},
-}
+#kekw = {
+#    "Mobile Photography in Nature [Y-Y-T]": {"skills": ["Graphic Design", "Web Development"], "location": (1.4405739802247404, 103.73564417585078)},
+#}
 
-job_database = {data}
 
-#print(job_database)
+# Converting data from 
+job_database = final_dict
+print(job_database)
+
+print(job_database["Mobile Photography in Nature [Y-Y-T]"])
+
 
 # Function to get coordinates from location
 def geocode_location(address):
@@ -53,6 +103,7 @@ def geocode_location(address):
 # Button to search for volunteer jobs
 if st.button('Search'):
     user_location = geocode_location(location)
+    print(user_location)
     if user_location:
         # Filter jobs based on selected skills and proximity
         matched_jobs = {job: details for job, details in job_database.items() if any(skill in skills for skill in details['skills'])}
