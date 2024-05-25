@@ -1,6 +1,6 @@
 import streamlit as st
 from database import insert_user_profile, get_user_profile, setup_database
-from models import UserProfile
+#from models import UserProfile
 import sqlite3
 
 # Assuming you have a database connection set up
@@ -13,8 +13,8 @@ class UserProfile:
         self.date_of_birth = date_of_birth
         self.residential_area = residential_area
         self.occupation = occupation
-        self.volunteer_interests = ', '.join(volunteer_interests)  # Store as a single string
-        self.skills = ', '.join(skills)  # Store as a single string
+        self.volunteer_interests = ''.join(volunteer_interests)  # Store as a single string
+        self.skills = ''.join(skills)  # Store as a single string
 
     def display_profile(self):
         profile_details = (
