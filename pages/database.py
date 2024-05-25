@@ -23,12 +23,12 @@ def setup_database():
 def insert_user_profile(user):
     with get_connection() as conn:
         cursor = conn.cursor()
-        # Ensure the data is joined as a string if it's a list
-        volunteer_interests_str = ', '.join(user.volunteer_interests) if isinstance(user.volunteer_interests, list) else user.volunteer_interests
-        skills_str = ', '.join(user.skills) if isinstance(user.skills, list) else user.skills
+        # Debugging statements to check data before insertion
+        print("Volunteer Interests:", user.volunteer_interests)
+        print("Skills:", user.skills)
         cursor.execute(
             "INSERT INTO users (username, date_of_birth, residential_area, occupation, volunteer_interests, skills) VALUES (?, ?, ?, ?, ?, ?)",
-            (user.username, user.date_of_birth, user.residential_area, user.occupation, volunteer_interests_str, skills_str)
+            (user.username, user.date_of_birth, user.residential_area, user.occupation, user.volunteer_interests, user.skills)
         )
         conn.commit()
 
@@ -38,14 +38,15 @@ def get_user_profile(username):
     cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
     data = cursor.fetchone()
     if data:
-        # No additional string manipulation is required here
+        # Debugging statements to check data right after retrieval
+        print("DB Volunteer Interests:", data[5])
+        print("DB Skills:", data[6])
         return UserProfile(
             username=str(data[1]), 
             date_of_birth=str(data[2]), 
             residential_area=str(data[3]),
             occupation=str(data[4]), 
-            volunteer_interests=str(data[5]),  # Directly pass the string
-            skills=str(data[6])               # Directly pass the string
+            volunteer_interests=str(data[5]),
+            skills=str(data[6])
         )
     return None
-
