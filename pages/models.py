@@ -6,8 +6,9 @@ class UserProfile:
         self.date_of_birth = date_of_birth
         self.residential_area = residential_area
         self.occupation = occupation
-        self.volunteer_interests = volunteer_interests  # Ensure this is a string
-        self.skills = skills  # Ensure this is a string
+        # Ensuring the data is treated as a string
+        self.volunteer_interests = str(volunteer_interests)
+        self.skills = str(skills)
 
     def display_profile(self):
         return (
@@ -18,3 +19,4 @@ class UserProfile:
             f"Volunteer Interests: {self.volunteer_interests}\n"
             f"Skills: {self.skills}"
         )
+
