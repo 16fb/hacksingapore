@@ -1,31 +1,12 @@
 import streamlit as st
 from database import insert_user_profile, get_user_profile, setup_database
-#from models import UserProfile
+from models import UserProfile
 import sqlite3
 
 # Assuming you have a database connection set up
 conn = sqlite3.connect('volunteer.db', check_same_thread=False)
 c = conn.cursor()
 
-class UserProfile:
-    def __init__(self, username, date_of_birth, residential_area, occupation, volunteer_interests, skills):
-        self.username = username
-        self.date_of_birth = date_of_birth
-        self.residential_area = residential_area
-        self.occupation = occupation
-        self.volunteer_interests = ''.join(volunteer_interests)  # Store as a single string
-        self.skills = ''.join(skills)  # Store as a single string
-
-    def display_profile(self):
-        profile_details = (
-            f"Username: {self.username}\n"
-            f"Date of Birth: {self.date_of_birth}\n"
-            f"Residential Area: {self.residential_area}\n"
-            f"Occupation: {self.occupation}\n"
-            f"Volunteer Interests: {self.volunteer_interests}\n"
-            f"Skills: {self.skills}"
-        )
-        return profile_details
 
 # Function to insert a new user profile into the database
 def insert_user_profile(user):
