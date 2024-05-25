@@ -7,6 +7,23 @@ import sqlite3
 conn = sqlite3.connect('volunteer.db', check_same_thread=False)
 c = conn.cursor()
 
+# Function to insert a new user profile into the database
+def insert_user_profile(user):
+    with conn:
+        c.execute(
+            "INSERT INTO users (username, date_of_birth, residential_area, occupation, volunteer_interests, skills) VALUES (?, ?, ?, ?, ?, ?)",
+            (user.username, user.date_of_birth, user.residential_area, user.occupation, user.volunteer_interests, user.skills)
+        )
+        conn.commit()
+
+# Function to get user profile from database
+def get_user_profile(username):
+    c.execute("SELECT * FROM users WHERE username = ?", (username,))
+    data = c.fetchone()
+    if data:
+        return UserProfile(*data[1:])  # Unpack all fields except the ID
+    return None
+
 # Define a list of volunteer interests
 volunteer_interests_options = [
     "Environmental Conservation",
@@ -27,16 +44,13 @@ volunteer_interests_options = [
 skills_options = [
     "Project Management",
     "Public Speaking",
-    "Data Analysis",
-    "Graphic Design",
-    "Web Development",
-    "Medical Knowledge",
+    "Programming",
+    "First Aid",
     "Marketing",
-    "Writing",
     "Customer Service",
     "Bilingual",
-    "Programming",
-    "Event Coordination"
+    "Cooking",
+    "Sign Language"
 ]
 
 # Streamlit interface for creating and viewing user profiles
@@ -56,15 +70,19 @@ with st.form("user_form"):
         setup_database()
         insert_user_profile(user)
         st.success("Profile created successfully!")
+        print("Volunteer Interests:", volunteer_interests)  # Check what is being passed
+        print("Skills:", skills)  # Check what is being passed
 
 st.write("Enter a username to display the profile:")
 
+
+
 search_username = st.text_input("Search Username")
 if st.button("Search"):
+
     profile = get_user_profile(search_username)
     if profile:
         # Direct display of the profile information without alteration
         st.text(profile.display_profile())
     else:
         st.error("Profile not found.")
-
