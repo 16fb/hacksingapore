@@ -45,6 +45,8 @@ job_database = {
     "[TN5] Flying Disc - Pesta Sukan 2024": {"skills": ["Event Coordination"], "location": (1.36921, 103.85634)},
 }
 
+print(job_database["Mobile Photography in Nature [Y-Y-T]"])
+
 # Function to get coordinates from location
 def geocode_location(address):
     geolocator = Nominatim(user_agent="kindhearts_connect")

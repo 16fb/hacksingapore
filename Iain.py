@@ -14,7 +14,7 @@ conn = st.connection("gsheets", type=GSheetsConnection)
 
 data = conn.read(spreadsheet=url, usecols = [1,2,3,4,5,6])
 
-#st.dataframe(data)
+st.dataframe(data)
 
 # Title of the app
 st.title('KindHearts Connect')
@@ -33,9 +33,13 @@ skills = st.multiselect(
 )
 
 # Job database with exact locations
-job_database = data
+{
+    "Mobile Photography in Nature [Y-Y-T]": {"skills": ["Graphic Design", "Web Development"], "location": (1.4405739802247404, 103.73564417585078)},
+}
 
-#print(job_database)
+job_database = {data}
+
+print(job_database)
 
 # Function to get coordinates from location
 def geocode_location(address):
