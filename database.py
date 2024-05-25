@@ -28,7 +28,7 @@ def insert_user_profile(user):
         print("Skills:", user.skills)
         cursor.execute(
             "INSERT INTO users (username, date_of_birth, residential_area, occupation, volunteer_interests, skills) VALUES (?, ?, ?, ?, ?, ?)",
-            (user.username, user.date_of_birth, user.residential_area, user.occupation, user.volunteer_interests, user.skills)
+            (user.username, user.date_of_birth, user.residential_area, user.occupation, ', '.join(user.volunteer_interests), ', '.join(user.skills))
         )
         conn.commit()
 
@@ -46,7 +46,7 @@ def get_user_profile(username):
             date_of_birth=str(data[2]), 
             residential_area=str(data[3]),
             occupation=str(data[4]), 
-            volunteer_interests=str(data[5]),
-            skills=str(data[6])
+            volunteer_interests=str(data[5]).split(", "),
+            skills=str(data[6]).split(", ")
         )
     return None

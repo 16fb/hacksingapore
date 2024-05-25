@@ -7,14 +7,11 @@ class UserProfile:
         self.residential_area = residential_area
         self.occupation = occupation
 
-        print(type(volunteer_interests))
-        volunteer_interests
-
-        # Ensure volunteer interests are joined by a comma and space if it's a list
-        self.volunteer_interests = ', '.join(volunteer_interests)
+        #print(type(volunteer_interests))
+        #print(volunteer_interests)
+        self.volunteer_interests = volunteer_interests
         
-        # Ensure skills are joined by a comma and space if it's a list
-        self.skills = ', '.join(skills)
+        self.skills = skills
 
     def display_profile(self):
         profile_details = (
@@ -22,8 +19,8 @@ class UserProfile:
             f"Date of Birth: {self.date_of_birth}\n"
             f"Residential Area: {self.residential_area}\n"
             f"Occupation: {self.occupation}\n"
-            f"Volunteer Interests: {self.volunteer_interests}\n"
-            f"Skills: {self.skills}"
+            f"Volunteer Interests: {', '.join(self.volunteer_interests)}\n"
+            f"Skills: {', '.join(self.skills)}"
         )
         return profile_details
 
