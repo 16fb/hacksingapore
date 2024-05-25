@@ -1,5 +1,5 @@
 import streamlit as st
-from database import insert_user_profile, get_user_profile
+from database import insert_user_profile, get_user_profile, setup_database
 from models import UserProfile
 import sqlite3
 
@@ -90,6 +90,7 @@ with st.form("user_form"):
     submitted = st.form_submit_button("Save")
     if submitted:
         user = UserProfile(username, date_of_birth, residential_area, occupation, volunteer_interests, skills)
+        setup_database()
         insert_user_profile(user)
         st.success("Profile created successfully!")
 
