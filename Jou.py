@@ -1,32 +1,98 @@
 import streamlit as st
+import sqlite3
+import pandas as pd
+import folium
+from streamlit_folium import st_folium
 
-# Title of the app
+# Database connection
+conn = sqlite3.connect('volunteer.db', check_same_thread=False)
+c = conn.cursor()
+
+def setup_database():
+    # Create tables for jobs, users, preferences if they don't exist
+    with conn:
+        c.execute('''
+            CREATE TABLE IF NOT EXISTS jobs (
+                id INTEGER PRIMARY KEY,
+                title TEXT,
+                location TEXT,
+                description TEXT,
+                latitude REAL,
+                longitude REAL
+            )
+        ''')
+        c.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                user_id INTEGER PRIMARY KEY,
+                username TEXT,
+                interests TEXT,
+                skills TEXT
+            )
+        ''')
+        c.execute('''
+            CREATE TABLE IF NOT EXISTS preferences (
+                user_id INTEGER,
+                preferred_location TEXT,
+                interests TEXT,
+                skills TEXT,
+                FOREIGN KEY (user_id) REFERENCES users (user_id)
+            )
+        ''')
+
+setup_database()
+
+def fetch_jobs(location):
+    c.execute("SELECT * FROM jobs WHERE location LIKE ?", ('%'+location+'%',))
+    return c.fetchall()
+
+def insert_dummy_data():
+    with conn:
+        c.execute("INSERT INTO jobs (title, location, description, latitude, longitude) VALUES (?, ?, ?, ?, ?)",
+                  ("Beach Cleanup", "East Coast Park", "Help clean up the beach.", 1.3521, 103.8198))
+
+# Uncomment below to insert dummy data once
+# insert_dummy_data()
+
 st.title('KindHearts Connect')
 
-# Display a welcome message
-st.header('Welcome to KindHearts Connect!')
-st.write('Find volunteering opportunities near you and make a difference in your community.')
+location = st.text_input('Enter your location:', '')
+jobs = []  # Define jobs here to ensure scope includes the map section
 
-# Search box to enter the location
-location = st.text_input('Enter your location to find volunteer jobs nearby:', '')
-
-# Button to search for volunteer jobs
-if st.button('Search'):
-    # For demonstration, assuming we have a function that fetches jobs based on location
-    # This should be replaced with actual logic to fetch data
-    jobs = ["Beach Cleanup - East Coast Park", "Community Library Helper - Central Library", "Elderly Care Companion - West Haven"]
-    
-    # Check if there are jobs available
+if st.button('Find Volunteer Opportunities'):
+    jobs = fetch_jobs(location)
     if jobs:
-        st.subheader('Available Volunteer Jobs Near You:')
+        st.subheader('Volunteer Opportunities Near You')
         for job in jobs:
-            st.write(f"● {job}")
+            st.write(f"{job[1]} at {job[2]} - {job[3]}")
     else:
-        st.write("Sorry, no volunteer jobs found near this location. Please try another location or check back later!")
+        st.write("No jobs found. Try a different location.")
 
-# Some extra information or links can be added here
-st.write('Volunteer today and be the change you want to see!')
-st.markdown("[Learn more about volunteering](https://www.example.com)")
+# Map display
+if jobs:
+    map = folium.Map(location=[1.3521, 103.8198], zoom_start=12)
+    for job in jobs:
+        folium.Marker(
+            [job[4], job[5]],
+            popup=f"{job[1]}: {job[3]}",
+            tooltip=job[1]
+        ).add_to(map)
+    st_folium(map, width=725)
 
-# Footer
+st.write('Connect with friends who are also interested!')
+# Placeholder for social features
+# Implement using user IDs and a system to track event sign-ups
+
+# User preference settings (simplified)
+with st.form("user_preferences"):
+    st.write("Your Preferences")
+    username = st.text_input("Username")
+    interests = st.text_area("Enter your interests")
+    skills = st.text_area("Enter your skills")
+    if st.form_submit_button("Save Preferences"):
+        with conn:
+            c.execute("INSERT INTO users (username, interests, skills) VALUES (?, ?, ?)",
+                      (username, interests, skills))
+            conn.commit()
+        st.success("Preferences saved!")
+
 st.write('KindHearts Connect © 2024')
