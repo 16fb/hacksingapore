@@ -1,12 +1,6 @@
 import streamlit as st
+import time
 
-left_column, right_column = st.columns(2)
-# You can use a column just like st.sidebar:
-left_column.button('Press me!')
+x = st.text_input("Favourite Movie?")
 
-# Or even better, call Streamlit functions inside a "with" block:
-with right_column:
-    chosen = st.radio(
-        'Sorting hat',
-        ("Gryffindor", "Ravenclaw", "Hufflepuff", "Slytherin"))
-    st.write(f"You are in {chosen} house!")
+st.write("Your Favorite Movie is:", x)
