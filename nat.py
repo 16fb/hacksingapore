@@ -21,17 +21,28 @@ skills = st.multiselect(
 
 # Expanded job database with more locations
 job_database = {
-    "Beach Cleanup - East Coast Park": {"skills": ["Environmental Conservation"], "location": (1.3039, 103.9123)},
-    "Community Library Helper - Central Library": {"skills": ["Teaching", "Mentoring"], "location": (1.2905, 103.8468)},
-    "Elderly Care Companion - West Haven": {"skills": ["Elderly Care", "First Aid"], "location": (1.3521, 103.8198)},
-    "Soup Kitchen Helper - Chinatown": {"skills": ["Cooking"], "location": (1.2833, 103.8333)},
-    "Event Planner - Marina Bay Sands": {"skills": ["Event Planning"], "location": (1.2834, 103.8607)},
-    "First Aid Volunteer - Sports Hub": {"skills": ["First Aid"], "location": (1.3004, 103.8747)},
-    "Childcare Assistant - Tiong Bahru": {"skills": ["Childcare"], "location": (1.2865, 103.8272)},
-    "Fundraiser - Orchard Road": {"skills": ["Fundraising"], "location": (1.3048, 103.8318)},
-    "Mentor - NUS Campus": {"skills": ["Mentoring"], "location": (1.2966, 103.7764)},
-    "Tech Support - Jurong East": {"skills": ["Technical Support"], "location": (1.3331, 103.7420)}
+    "Mobile Photography in Nature [Y-Y-T]": {"skills": ["Graphic Design", "Web Development"], "location": (1.4405739802247404, 103.73564417585078)},
+    "[E3] Our Tampines Hub Festival": {"skills": ["Event Coordination"], "location": (1.353308328096193, 103.94089296047616)},
+    "[E6] Community Championship 3x3 Basketball Challenge": {"skills": ["Event Coordination"], "location": (1.3271361451249875, 103.93328656997474)},
+    "[TN5] BAS Youth Cup 2024": {"skills": ["Event Coordination"], "location": (1.3211952858158384, 103.88785806306707)},
+    "[TN5] KOTC Asia League Circuit 3 (Basketball)": {"skills": ["Marketing"], "location": (1.3202623237084459, 103.84472909141088)},
+    "[TN5] Squash - Pesta Sukan 2024": {"skills": ["Event Coordination"], "location": (1.3056343991703967, 103.88090788906455)},
+    "Re:ground @ Dungeon - Tranquil Ties [TRB]": {"skills": ["Event Coordination"], "location": (1.3007360214142216, 103.83761584723872)},
+    "Project Sort It Out - SORT Walk and Workshop [YCLPA]": {"skills": ["Event Coordination"], "location": (1.3403732884907542, 103.70515493559607)},
+    "[E1] ActiveSG Water Polo Cup 2024": {"skills": ["Bilingual"], "location": (1.3403089330888962, 103.70497254539693)},
+    "[TN5] Handball - Pesta Sukan 2024": {"skills": ["Bilingual"], "location": (1.331820392821176, 103.72119410440554)},
+    "Healthy with KidSTART Distribution (June 2024)": {"skills": ["Medical Knowledge"], "location": (1.3127132147994065, 103.8373549896772)},
+    "[C5] Swimming Volunteer for Special Olympics (Jul - Dec 24)": {"skills": ["Bilingual"], "location": (1.3109954205477847, 103.76668076813452)},
+    "[C4] Play-ability - Basketball (ASD) [Jul - Sep] 2024": {"skills": ["Bilingual"], "location": (1.3109954205477847, 103.76668076813452)},
+    "Hearts Connect @ SAS - 4 July 2024 [BSV]": {"skills": ["Customer Service", "Bilingual"], "location": (1.367995, 103.892185)},
+    "[C4] Play-ability - Soundball Singapore [Jul - Sep] 2024": {"skills": ["Bilingual"], "location": (1.31907, 103.82511)},
+    "[C4] Play-ability - Basketball (Touch BM) [Jul - Sep] 2024": {"skills": ["Bilingual"], "location": (1.290363, 103.826905)},
+    "Book Distribution (13 & 14 June 2024)": {"skills": ["Marketing", "Writing"], "location": (1.29807, 103.8498)},
+    "Child Protective Service Online Info Sharing Session": {"skills": ["Programming", "Event Coordination"], "location": (1.3403089330888962, 103.70497254539693)},
+    "Le Ho Bho 2024 instructor recruitment [Y-Y]": {"skills": ["Bilingual"], "location": (1.3007360214142216, 103.83761584723872)},
+    "[TN5] Flying Disc - Pesta Sukan 2024": {"skills": ["Event Coordination"], "location": (1.36921, 103.85634)},
 }
+
 
 # Button to search for volunteer jobs
 if st.button('Search'):
