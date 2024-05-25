@@ -7,8 +7,8 @@ class UserProfile:
         self.residential_area = residential_area
         self.occupation = occupation
         # Ensuring the data is treated as a string
-        self.volunteer_interests = str(volunteer_interests)
-        self.skills = str(skills)
+        self.volunteer_interests = ''.join(volunteer_interests)
+        self.skills = ''.join(skills)
 
     def display_profile(self):
         return (
