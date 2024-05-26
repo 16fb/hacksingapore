@@ -13,9 +13,9 @@ url = "https://docs.google.com/spreadsheets/d/1fC354qoKCC847OFmI9p32evXxcCCw_FPv
 
 conn = st.connection("gsheets", type=GSheetsConnection)
 
-data = conn.read(spreadsheet=url, usecols = [1,2,3,4,5,6])
+data = conn.read(spreadsheet=url, usecols = [1,2,3,4,5,6,7,8])
 
-#st.dataframe(data)
+st.dataframe(data)
 
 #Logo
 st.image('image\Logo.jpg', width=200, use_column_width="never")
@@ -30,6 +30,23 @@ search_username = st.text_input('Enter your Username:', '')
 
 # Search box to enter the location
 location = st.text_input('Enter your location to find volunteer jobs nearby:', '')
+
+# Function to get coordinates from location
+def geocode_location(address):
+    geolocator = Nominatim(user_agent="kindhearts_connect")
+    location = geolocator.geocode(address)
+    if location:
+        return (location.latitude, location.longitude)
+    else:
+        return None
+    
+def geocode_locationPostal(address):
+    geolocator = Nominatim(user_agent="kindhearts_connect")
+    location = geolocator.geocode({"country":"sg", "postalcode":address})
+    if location:
+        return (location.latitude, location.longitude)
+    else:
+        return None
 
 # Multi-select box to enter the skillsets
 
@@ -50,17 +67,8 @@ for index, row in data.iterrows():
     #print(row["name"], row["skills"], row["location"])
 
     ## extract string of 2 floats into tuples
-    items = row["location"].split(',')
-    try:
-        first = float(items[0])
-    except (ValueError, IndexError):
-        pass
-    try:
-        second = float(items[-1])
-    except (ValueError, IndexError):
-        pass
-
-    location_helps = (first,second)
+    location_helps = geocode_locationPostal(row["postalCode"])
+    print(location_helps)
 
     ## extract string of skills into list
     skillss = []
@@ -83,17 +91,10 @@ for index, row in data.iterrows():
 job_database = final_dict
 print(job_database)
 
-print(job_database["Mobile Photography in Nature [Y-Y-T]"])
+#print(job_database["Mobile Photography in Nature [Y-Y-T]"])
 
 
-# Function to get coordinates from location
-def geocode_location(address):
-    geolocator = Nominatim(user_agent="kindhearts_connect")
-    location = geolocator.geocode(address)
-    if location:
-        return (location.latitude, location.longitude)
-    else:
-        return None
+
 
 # Button to search for volunteer jobs
 if st.button('Search'):
