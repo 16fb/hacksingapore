@@ -10,6 +10,7 @@ from database import insert_user_profile, get_user_profile, setup_database
 
 # Google Sheet URL
 url = "https://docs.google.com/spreadsheets/d/1fC354qoKCC847OFmI9p32evXxcCCw_FPvzx9CkhGsVk/edit?usp=sharing"
+#url = "https://docs.google.com/spreadsheets/d/1V1M7Hy0yyrPGiX-mzdB-N6IE-BnMwNR2-sfE8zdTHgQ/edit?usp=sharing"
 
 conn = st.connection("gsheets", type=GSheetsConnection)
 
