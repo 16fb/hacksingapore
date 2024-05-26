@@ -62,16 +62,5 @@ with st.form("user_form"):
         print("Volunteer Interests:", volunteer_interests)  # Check what is being passed
         print("Skills:", skills)  # Check what is being passed
 
-st.write("Enter a username to display the profile:")
-
-
-
-search_username = st.text_input("Search Username")
-if st.button("Search"):
-
-    profile = get_user_profile(search_username)
-    if profile:
-        # Direct display of the profile information without alteration
-        st.text(profile.display_profile())
-    else:
-        st.error("Profile not found.")
+st.write('Volunteer today and be the change you want to see!')
+st.markdown("[Learn more about volunteering](https://www.example.com)")
