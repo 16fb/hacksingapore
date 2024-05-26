@@ -15,13 +15,11 @@ conn = st.connection("gsheets", type=GSheetsConnection)
 
 data = conn.read(spreadsheet=url, usecols = [1,2,3,4,5,6])
 
-st.dataframe(data)
+#st.dataframe(data)
 
+#Logo
+st.image('image\Logo.jpg', width=200, use_column_width="never")
 
-
-
-# Title of the app
-st.title('KindHearts Connect')
 
 # Display a welcome message
 st.header('Welcome to KindHearts Connect!')

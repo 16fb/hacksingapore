@@ -38,7 +38,12 @@ skills_options = [
 ]
 
 # Streamlit interface for creating and viewing user profiles
-st.title('User Profile Page')
+
+#Logo
+st.image('image\Logo.jpg', width=200, use_column_width="never")
+
+#Display welcome
+st.header('Welcome to KindHearts Connect!')
 
 with st.form("user_form"):
     st.write("Create a new user profile:")
