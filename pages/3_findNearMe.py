@@ -61,44 +61,39 @@ def geocode_locationPostal(address):
 #print(data.skills)
 #print(data.location)
 
-final_dict = {}
 
-for index, row in data.iterrows():
-    #print(row["name"], row["date"], row["address"], row["location"], row["shift"], row["skills"])
-    #print(row["name"], row["skills"], row["location"])
-
-    ## extract string of 2 floats into tuples
-    location_helps = geocode_locationPostal(row["postalCode"])
-    print(location_helps)
-
-    ## extract string of skills into list
-    skillss = []
-    for item in row["skills"].split(','):
-        skillss.append(item)
-
-    final_dict[ str(row["name"]) ] = {
-                    "skills": skillss,
-                    "location": location_helps
-                }
-
-
-# Job database with exact locations
-#kekw = {
-#    "Mobile Photography in Nature [Y-Y-T]": {"skills": ["Graphic Design", "Web Development"], "location": (1.4405739802247404, 103.73564417585078)},
-#}
-
-
-# Converting data from 
-job_database = final_dict
-print(job_database)
-
-#print(job_database["Mobile Photography in Nature [Y-Y-T]"])
 
 
 
 
 # Button to search for volunteer jobs
 if st.button('Search'):
+    final_dict = {}
+
+    for index, row in data.iterrows():
+        #print(row["name"], row["date"], row["address"], row["location"], row["shift"], row["skills"])
+        #print(row["name"], row["skills"], row["location"])
+
+        ## extract string of 2 floats into tuples
+        location_helps = geocode_locationPostal(row["postalCode"])
+        print(location_helps)
+
+        ## extract string of skills into list
+        skillss = []
+        for item in row["skills"].split(','):
+            skillss.append(item)
+
+        final_dict[ str(row["name"]) ] = {
+                        "skills": skillss,
+                        "location": location_helps
+                    }
+
+
+    # Converting data from 
+    job_database = final_dict
+    print(job_database)
+
+    #print(job_database["Mobile Photography in Nature [Y-Y-T]"])
 
     profile = get_user_profile(search_username)
     if profile:
