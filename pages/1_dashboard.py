@@ -1,4 +1,5 @@
 import streamlit as st
+from database import insert_user_profile, get_user_profile, setup_database
 
 # Mock user data
 user_activities = [
@@ -17,30 +18,45 @@ user_badges = [
     {"name": "Tech Guru", "icon": "💻"},
 ]
 
+
 st.title('Volunteer Dashboard')
 
-# Display the user profile and stats
-st.header('User Profile and Stats')
-st.write("Welcome back, [Your Name]!")
+st.write("Enter a username to display the profile:")
 
-# Display User Activities
-st.subheader('Recent Activities')
-for activity in user_activities:
-    st.text(f"{activity['date']}: {activity['activity']} ({activity['hours']} hours)")
+search_username = st.text_input("Search Username")
+if st.button("Search"):
 
-# Display Achievements
-st.subheader('Achievements')
-for achievement in user_achievements:
-    st.text(f"{achievement['date']}: {achievement['name']}")
+    profile = get_user_profile(search_username)
+    if profile:
+        # Direct display of the profile information without alteration
+        st.text(profile.display_profile())
+        
+        # Display the user profile and stats
+        st.header('User Profile and Stats')
+        st.write("Welcome back,", profile.username, "!!!")
 
-# Display Badges
-st.subheader('Badges Earned')
-for badge in user_badges:
-    st.text(f"{badge['icon']} {badge['name']}")
+        # Display User Activities
+        st.subheader('Recent Activities')
+        for activity in user_activities:
+            st.text(f"{activity['date']}: {activity['activity']} ({activity['hours']} hours)")
 
-# Optional: Dynamic Components
-if st.button('Refresh Data'):
-    st.experimental_rerun()
+        # Display Achievements
+        st.subheader('Achievements')
+        for achievement in user_achievements:
+            st.text(f"{achievement['date']}: {achievement['name']}")
+
+        # Display Badges
+        st.subheader('Badges Earned')
+        for badge in user_badges:
+            st.text(f"{badge['icon']} {badge['name']}")
+
+    else:
+        st.error("Profile not found.")
+
+
+st.write('Volunteer today and be the change you want to see!')
+st.markdown("[Learn more about volunteering](https://www.example.com)")
+
 
 st.markdown('---')
 st.write('Thank you for making a difference with your volunteer work!')
